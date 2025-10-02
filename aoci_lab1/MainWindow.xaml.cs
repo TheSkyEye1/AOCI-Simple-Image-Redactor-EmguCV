@@ -51,7 +51,29 @@ namespace aoci_lab1
 
         private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (sourceImage == null) return;
 
+            Image<Bgr, byte> lightImage = sourceImage.Clone();
+            int brightness = (int)e.NewValue;
+
+            for (int y = 0; y < lightImage.Rows; y++)
+            {
+                for (int x = 0; x < lightImage.Cols; x++)
+                {
+                    Bgr pixel = lightImage[y, x];
+                    
+                    int b = (int)pixel.Blue + brightness;
+                    int g = (int)pixel.Green + brightness;
+                    int r = (int)pixel.Red + brightness;
+
+                    pixel.Blue = (byte)Math.Max(0, Math.Min(255, b));
+                    pixel.Green = (byte)Math.Max(0, Math.Min(255, g));
+                    pixel.Red = (byte)Math.Max(0, Math.Min(255, r));
+
+                    lightImage[y, x] = pixel;
+                }
+            }
+            MainImage.Source = ToBitmapSource(lightImage);
         }
 
         private void LoadImage_Click(object sender, RoutedEventArgs e)
