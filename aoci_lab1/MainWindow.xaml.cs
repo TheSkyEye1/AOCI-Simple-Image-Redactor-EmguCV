@@ -32,8 +32,7 @@ namespace aoci_lab1
         {
             InitializeComponent();
         }
-
-        public static BitmapSource ToBitmapSource(Image<Bgr, byte> image)
+        public BitmapSource ToBitmapSource(Image<Bgr, byte> image)
         {
             var mat = image.Mat;
 
@@ -47,6 +46,27 @@ namespace aoci_lab1
                 mat.DataPointer,
                 mat.Step * mat.Height,
                 mat.Step);
+        }
+        public Image<Bgr, byte> ToEmguImage(BitmapSource source)
+        {
+            if (source == null) return null;
+
+            FormatConvertedBitmap safeSource = new FormatConvertedBitmap();
+            safeSource.BeginInit();
+            safeSource.Source = source;
+            safeSource.DestinationFormat = PixelFormats.Bgr24;
+            safeSource.EndInit();
+
+            Image<Bgr, byte> resultImage = new Image<Bgr, byte>(safeSource.PixelWidth, safeSource.PixelHeight);
+            var mat = resultImage.Mat;
+
+            safeSource.CopyPixels(
+                new System.Windows.Int32Rect(0, 0, safeSource.PixelWidth, safeSource.PixelHeight),
+                mat.DataPointer,
+                mat.Step * mat.Height,
+                mat.Step);
+
+            return resultImage;
         }
 
         private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -201,5 +221,19 @@ namespace aoci_lab1
             return image;
         }
 
+        private void UpdateImage_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapSource currentWpfImage = MainImage.Source as BitmapSource;
+
+            if (currentWpfImage == null)
+            {
+                MessageBox.Show("Изображение отсутсвует");
+                return;
+            }
+
+            sourceImage = ToEmguImage(currentWpfImage);
+
+            MessageBox.Show("Изменения применены. Теперь это новый оригинал.");
+        }
     }
 }

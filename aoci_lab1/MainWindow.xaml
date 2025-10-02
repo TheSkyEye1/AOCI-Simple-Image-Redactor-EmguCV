@@ -37,6 +37,8 @@
                 <Slider Minimum="-100" Maximum="100" Value="0" Name="BrightnessSlider" ValueChanged="BrightnessSlider_ValueChanged"/>
                 <Label Content="Контраст"/>
                 <Slider Minimum="0" Maximum="5" Value="1" Name="ContrastSlider" ValueChanged="ContrastSlider_ValueChanged"/>
+
+                <Button Content="Применить изменения" Click="UpdateImage_Click" Margin="0,40,0,0" FontWeight="Bold"/>
             </StackPanel>
         </Border>
         <!-- Здесь будет картинка -->
