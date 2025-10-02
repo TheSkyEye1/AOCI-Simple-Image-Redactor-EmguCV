@@ -95,7 +95,9 @@ namespace aoci_lab1
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
+            if(sourceImage == null) return;
 
+            MainImage.Source = ToBitmapSource(sourceImage);
         }
     }
 }
