@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:aoci_lab1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,9 +16,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Панель с кнопками и слайдером -->
+        <!-- Панель с кнопками и слайдерами -->
         <Border Grid.Row="1" Grid.Column="0" BorderBrush="DimGray" BorderThickness="1" Margin="5">
             <StackPanel Margin="5">
+                
                 <Button Content="Открыть изображение" Click="LoadImage_Click" Margin="0,0,0,10" FontWeight="Bold"/>
                 <Button Content="Сбросить" Click="Clear_Click" Margin="0,0,0,5"/>
                 <Button Content="Инвертировать" Click="Invert_Click" Margin="0,0,0,5"/>
@@ -38,12 +39,17 @@
                 <Label Content="Контраст"/>
                 <Slider Minimum="0" Maximum="5" Value="1" Name="ContrastSlider" ValueChanged="ContrastSlider_ValueChanged"/>
 
-                <Button Content="Применить изменения" Click="UpdateImage_Click" Margin="0,40,0,0" FontWeight="Bold"/>
+                <Button Content="Применить изменения" Click="UpdateImage_Click" Margin="0,20,0,5"/>
+                <Button Content="Сохранить изображение" Click="SaveImage_Click" Margin="0,0,0,0" FontWeight="Bold"/>
+                
             </StackPanel>
         </Border>
+        
         <!-- Здесь будет картинка -->
         <Border Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1" Margin="5">
+            
             <Image Name="MainImage"  Margin="5" Stretch="Uniform"/>
+            
         </Border>
 
     </Grid>

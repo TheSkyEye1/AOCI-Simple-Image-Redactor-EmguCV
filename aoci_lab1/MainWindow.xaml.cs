@@ -231,9 +231,40 @@ namespace aoci_lab1
                 return;
             }
 
+
             sourceImage = ToEmguImage(currentWpfImage);
 
             MessageBox.Show("Изменения применены. Теперь это новый оригинал.");
+        }
+
+        private void SaveImage_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapSource currentWpfImage = MainImage.Source as BitmapSource;
+            if (currentWpfImage == null)
+            {
+                MessageBox.Show("Отсутсвует изображение");
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PNG Image (*.png)|*.png|JPEG Image (*.jpg)|*.jpg|Bitmap Image (*.bmp)|*.bmp";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    Image<Bgr, byte> imageToSave = ToEmguImage(currentWpfImage);
+
+                    imageToSave.Save(saveFileDialog.FileName);
+
+                    MessageBox.Show($"Изображение успешно сохранено в {saveFileDialog.FileName}");
+                }
+                catch (Exception ex)
+                {
+                    
+                    MessageBox.Show($"Ошибка! Не могу сохранить файл. Подробности: {ex.Message}");
+                }
+            }
         }
     }
 }
