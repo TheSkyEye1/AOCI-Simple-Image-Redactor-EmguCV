@@ -132,5 +132,10 @@ namespace aoci_lab1
 
             MainImage.Source = ToBitmapSource(sourceImage);
         }
+
+        private void ContrastSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }

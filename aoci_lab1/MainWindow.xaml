@@ -17,16 +17,32 @@
         </Grid.ColumnDefinitions>
 
         <!-- Панель с кнопками и слайдером -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
-            <Button Content="Открыть изображение" Click="LoadImage_Click" Margin="0,0,0,5"/>
-            <Button Content="Сбросить" Click="Clear_Click" Margin="0,0,0,5"/>
-            <Button Content="Инвертировать" Click="Invert_Click" Margin="0,0,0,5"/>
-            <Button Content="Черно-белый" Click="Grayscale_Click" Margin="0,0,0,10"/>
-            <Label Content="Яркость"/>
-            <Slider Minimum="-100" Maximum="100" Value="0" Name="BrightnessSlider" ValueChanged="BrightnessSlider_ValueChanged"/>
-        </StackPanel>
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="DimGray" BorderThickness="1" Margin="5">
+            <StackPanel Margin="5">
+                <Button Content="Открыть изображение" Click="LoadImage_Click" Margin="0,0,0,10" FontWeight="Bold"/>
+                <Button Content="Сбросить" Click="Clear_Click" Margin="0,0,0,5"/>
+                <Button Content="Инвертировать" Click="Invert_Click" Margin="0,0,0,5"/>
+                <Button Content="Черно-белый" Click="Grayscale_Click" Margin="0,0,0,10"/>
 
+                <Border BorderBrush="DimGray" BorderThickness="1" Margin="5">
+                    <StackPanel Margin="10">
+                        <Label Content="Операции с каналами" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch"/>
+                        <Button Content="Удалить красный" Click="RemoveRed_Click" Margin="0,0,0,5"/>
+                        <Button Content="Удалить зеленый" Click="RemoveGreen_Click" Margin="0,0,0,5"/>
+                        <Button Content="Удалить синий" Click="RemoveBlue_Click" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </Border>
+
+                <Label Content="Яркость"/>
+                <Slider Minimum="-100" Maximum="100" Value="0" Name="BrightnessSlider" ValueChanged="BrightnessSlider_ValueChanged"/>
+                <Label Content="Контраст"/>
+                <Slider Minimum="-5" Maximum="5" Value="0" Name="ContrastSlider" ValueChanged="ContrastSlider_ValueChanged"/>
+            </StackPanel>
+        </Border>
         <!-- Здесь будет картинка -->
-        <Image Name="MainImage" Grid.Row="1" Grid.Column="1" Margin="10" Stretch="Uniform"/>
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="1" Margin="5">
+            <Image Name="MainImage"  Margin="5" Stretch="Uniform"/>
+        </Border>
+
     </Grid>
 </Window>
