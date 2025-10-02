@@ -1,0 +1,101 @@
+﻿using Emgu.CV.Structure;
+using Emgu.CV;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Emgu.CV.Reg;
+using System.Drawing;
+using Microsoft.Win32;
+
+namespace aoci_lab1
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+
+        private Image<Bgr, byte> sourceImage;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        public static BitmapSource ToBitmapSource(Image<Bgr, byte> image)
+        {
+            var mat = image.Mat;
+
+            return BitmapSource.Create(
+                mat.Width,
+                mat.Height,
+                96d,
+                96d,
+                PixelFormats.Bgr24,
+                null,
+                mat.DataPointer,
+                mat.Step * mat.Height,
+                mat.Step);
+        }
+
+        private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void LoadImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Файлы изображений (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                sourceImage = new Image<Bgr, byte>(openFileDialog.FileName);
+                MainImage.Source = ToBitmapSource(sourceImage);
+            }
+        }
+
+        private void Invert_Click(object sender, RoutedEventArgs e)
+        {
+            if (sourceImage == null) return;
+
+            // Клонируем оригинал, чтобы работать с копией
+            Image<Bgr, byte> invertedImage = sourceImage.Clone();
+
+            for (int y = 0; y < invertedImage.Rows; y++)
+            {
+                for (int x = 0; x < invertedImage.Cols; x++)
+                {
+                    Bgr pixel = invertedImage[y, x];
+                    pixel.Blue = 255 - pixel.Blue;
+                    pixel.Green = 255 - pixel.Green;
+                    pixel.Red = 255 - pixel.Red;
+                    invertedImage[y, x] = pixel;
+                }
+            }
+
+            // Отображаем результат
+            MainImage.Source = ToBitmapSource(invertedImage);
+        }
+
+        private void Grayscale_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}
