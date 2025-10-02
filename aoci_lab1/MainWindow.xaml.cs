@@ -20,6 +20,7 @@ namespace aoci_lab1
         }
 
         // --- Методы-конвертеры (Мост между Emgu.CV и WPF) ---
+        #region Методы-конвертеры
 
         /*/
         Функция конвертирует изображение из формата Emgu.CV (Image<Bgr, byte>) в формат, понятный для WPF (BitmapSource).
@@ -70,11 +71,11 @@ namespace aoci_lab1
 
             return resultImage;
         }
-
+        #endregion
 
 
         // --- Обработчики событий от элементов UI ---
-
+        #region Обработчики загрузки-сохранения
 
         //Функция загрузки изображения
         private void LoadImage_Click(object sender, RoutedEventArgs e)
@@ -147,10 +148,25 @@ namespace aoci_lab1
             MessageBox.Show("Изменения применены. Теперь это новый оригинал.");
         }
 
+        //Функция сброса всех изменений
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            if (sourceImage == null) return;
 
+            //Просто отображаем наше исходное изображение.
+            MainImage.Source = ToBitmapSource(sourceImage);
+        }
+
+
+        #endregion
 
 
         // --- Методы обработки изображений ---
+        #region Методы обработки изображений
+
+
+        // --- Методы попиксельного изменения изображений ---
+        #region Методы попиксельного изменения изображений
 
 
         //Функция инвертации значения пикселей
@@ -211,17 +227,11 @@ namespace aoci_lab1
             MainImage.Source = ToBitmapSource(grayscaleImage);
         }
 
-        //Функция сброса всех изменений
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            if(sourceImage == null) return;
-
-            //Просто отображаем наше исходное изображение.
-            MainImage.Source = ToBitmapSource(sourceImage);
-        }
+        #endregion
 
 
-        // --- Методы для работы с цветовыми каналами --
+        // --- Методы обработки цветовых каналов --
+        #region Методы обработки цветовых каналов
 
         //Вспомогательный метод для удаления или ослабления цветовых каналов.
         public Image<Bgr, byte> RemoveChannels(Image<Bgr, byte> image, int[] channels)
@@ -270,10 +280,11 @@ namespace aoci_lab1
             MainImage.Source = ToBitmapSource(RemoveChannels(redImage, new int[] { 0, 1, 1 }));
         }
 
+        #endregion
 
-        // --- Обработчики для слайдеров ---
 
-
+        // --- Методы обработки слайдеров ---
+        #region Методы обработки слайдеров
 
         private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -306,6 +317,7 @@ namespace aoci_lab1
             }
             MainImage.Source = ToBitmapSource(lightImage);
         }
+
         private void ContrastSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sourceImage == null) return;
@@ -339,5 +351,8 @@ namespace aoci_lab1
             MainImage.Source = ToBitmapSource(contrastImage);
         }
 
+        #endregion
+
+        #endregion
     }
 }
