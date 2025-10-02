@@ -162,17 +162,44 @@ namespace aoci_lab1
 
         private void RemoveRed_Click(object sender, RoutedEventArgs e)
         {
-
+            Image<Bgr, byte> redImage = sourceImage.Clone();
+            MainImage.Source = ToBitmapSource(RemoveChannels(redImage, new int[] { 1, 1, 0 }));
         }
 
         private void RemoveGreen_Click(object sender, RoutedEventArgs e)
         {
-
+            Image<Bgr, byte> redImage = sourceImage.Clone();
+            MainImage.Source = ToBitmapSource(RemoveChannels(redImage, new int[] { 1, 0, 1 }));
         }
 
         private void RemoveBlue_Click(object sender, RoutedEventArgs e)
         {
-
+            Image<Bgr, byte> redImage = sourceImage.Clone();
+            MainImage.Source = ToBitmapSource(RemoveChannels(redImage, new int[] { 0, 1, 1 }));
         }
+
+        public Image<Bgr, byte> RemoveChannels(Image<Bgr, byte> image, int[] channels)
+        {
+            for (int y = 0; y < image.Rows; y++)
+            {
+                for (int x = 0; x < image.Cols; x++)
+                {
+                    Bgr pixel = image[y, x];
+
+                    int b = (int)(pixel.Blue * channels[0]);
+                    int g = (int)(pixel.Green * channels[1]);
+                    int r = (int)(pixel.Red * channels[2]);
+
+                    pixel.Blue = (byte)Math.Max(0, Math.Min(255, b));
+                    pixel.Green = (byte)Math.Max(0, Math.Min(255, g));
+                    pixel.Red = (byte)Math.Max(0, Math.Min(255, r));
+
+                    image[y, x] = pixel;
+                }
+            }
+
+            return image;
+        }
+
     }
 }
