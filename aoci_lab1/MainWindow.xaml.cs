@@ -69,7 +69,6 @@ namespace aoci_lab1
         {
             if (sourceImage == null) return;
 
-            // Клонируем оригинал, чтобы работать с копией
             Image<Bgr, byte> invertedImage = sourceImage.Clone();
 
             for (int y = 0; y < invertedImage.Rows; y++)
@@ -84,13 +83,25 @@ namespace aoci_lab1
                 }
             }
 
-            // Отображаем результат
             MainImage.Source = ToBitmapSource(invertedImage);
         }
 
         private void Grayscale_Click(object sender, RoutedEventArgs e)
         {
+            if (sourceImage == null) return;
 
+            Image<Bgr, byte> grayscaleImage = sourceImage.Clone();
+
+            for (int y = 0; y < grayscaleImage.Rows; y++)
+            {
+                for (int x = 0; x < grayscaleImage.Cols; x++)
+                {
+                    Bgr pixel = grayscaleImage[y, x];
+                    byte gray = (byte)(pixel.Red * 0.299 + pixel.Green * 0.587 + pixel.Blue * 0.114);
+                    grayscaleImage[y, x] = new Bgr(gray, gray, gray);
+                }
+            }
+            MainImage.Source = ToBitmapSource(grayscaleImage);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
