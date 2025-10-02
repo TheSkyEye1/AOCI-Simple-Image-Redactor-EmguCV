@@ -135,6 +135,43 @@ namespace aoci_lab1
 
         private void ContrastSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (sourceImage == null) return;
+
+            Image<Bgr, byte> contrastImage = sourceImage.Clone();
+            double brightness = e.NewValue;
+
+            for (int y = 0; y < contrastImage.Rows; y++)
+            {
+                for (int x = 0; x < contrastImage.Cols; x++)
+                {
+                    Bgr pixel = contrastImage[y, x];
+
+                    int b = (int)(pixel.Blue * brightness);
+                    int g = (int)(pixel.Green * brightness);
+                    int r = (int)(pixel.Red * brightness);
+
+                    pixel.Blue = (byte)Math.Max(0, Math.Min(255, b));
+                    pixel.Green = (byte)Math.Max(0, Math.Min(255, g));
+                    pixel.Red = (byte)Math.Max(0, Math.Min(255, r));
+
+                    contrastImage[y, x] = pixel;
+                }
+            }
+            MainImage.Source = ToBitmapSource(contrastImage);
+        }
+
+        private void RemoveRed_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveGreen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveBlue_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

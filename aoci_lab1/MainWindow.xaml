@@ -36,7 +36,7 @@
                 <Label Content="Яркость"/>
                 <Slider Minimum="-100" Maximum="100" Value="0" Name="BrightnessSlider" ValueChanged="BrightnessSlider_ValueChanged"/>
                 <Label Content="Контраст"/>
-                <Slider Minimum="-5" Maximum="5" Value="0" Name="ContrastSlider" ValueChanged="ContrastSlider_ValueChanged"/>
+                <Slider Minimum="0" Maximum="5" Value="1" Name="ContrastSlider" ValueChanged="ContrastSlider_ValueChanged"/>
             </StackPanel>
         </Border>
         <!-- Здесь будет картинка -->
